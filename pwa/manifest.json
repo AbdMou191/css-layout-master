@@ -1,14 +1,15 @@
 {
-  "name": "مرجع Flexbox و Grid — دروس وتمارين",
-  "short_name": "مرجع CSS",
-  "description": "تعلم Flexbox و CSS Grid بطريقة تفاعلية مع دروس وتمارين واختبارات",
-  "start_url": "../index.html",
+  "name": "مرجع Flexbox و Grid — دروس وتمارين v2",
+  "short_name": "مرجع CSS v2",
+  "description": "الإصدار الجديد المحسّن من تطبيق تعلم Flexbox و CSS Grid",
+  "start_url": "../index.html?v=2",
   "display": "standalone",
   "orientation": "any",
   "dir": "rtl",
   "lang": "ar",
   "background_color": "#ffffff",
   "theme_color": "#111111",
+  "id": "css-layout-master-v2",
   "categories": ["education", "developer tools", "productivity"],
   "icons": [
     {
@@ -29,14 +30,14 @@
       "name": "الدروس النظرية",
       "short_name": "الدروس",
       "description": "ابدأ بالدروس النظرية",
-      "url": "../index.html?mode=theory",
+      "url": "../index.html?mode=theory&v=2",
       "icons": [{ "src": "icons/icon-192.jpg", "sizes": "192x192", "type": "image/jpeg" }]
     },
     {
       "name": "التمارين التطبيقية",
       "short_name": "التمارين",
       "description": "ابدأ بالتمارين التطبيقية",
-      "url": "../index.html?mode=practice",
+      "url": "../index.html?mode=practice&v=2",
       "icons": [{ "src": "icons/icon-192.jpg", "sizes": "192x192", "type": "image/jpeg" }]
     }
   ]
