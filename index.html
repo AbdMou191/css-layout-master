@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  
+  <!-- ✅ الكود السحري لمنع الوميض الأبيض (يعمل فوراً قبل رسم الصفحة) -->
+  <script>
+    (function() {
+      try {
+        var isDark = localStorage.getItem('darkMode');
+        if (isDark === 'true' || (isDark === null && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <!-- ✅ نهاية الكود السحري -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111111">
+  
+  <!-- ✅ تحسينات SEO الأساسية -->
+  <title data-i18n="app_title">مرجع Flexbox و Grid — دروس وتمارين تفاعلية</title>
+  <meta name="description" content="تعلم Flexbox و CSS Grid بطريقة تفاعلية وممتعة. دروس شاملة، تمارين تطبيقية، محاكي حر، واختبارات لقياس مستوى فهمك. مرجعك العربي الأول لتخطيط CSS.">
+  <meta name="keywords" content="Flexbox, CSS Grid, تعلم CSS, دروس CSS, تمارين CSS, CSS Layout, مرجع CSS, تصميم متجاوب, تطوير الويب">
+  <meta name="author" content="Moussa Abderrezagui">
+  <link rel="canonical" href="https://yourdomain.com/index.html">
+  
+  <!-- ✅ تحسينات SEO لمشاركة الروابط (Open Graph & Twitter) -->
+  <meta property="og:title" content="مرجع Flexbox و Grid — دروس وتمارين تفاعلية">
+  <meta property="og:description" content="تعلم تخطيط CSS بطريقة تفاعلية مع دروس، تمارين، ومحاكي حر.">
+  <meta property="og:image" content="https://yourdomain.com/pwa/icons/icon-512.jpg">
+  <meta property="og:url" content="https://yourdomain.com/index.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ar_AR">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="مرجع Flexbox و Grid — دروس وتمارين تفاعلية">
+  <meta name="twitter:description" content="تعلم تخطيط CSS بطريقة تفاعلية مع دروس، تمارين، ومحاكي حر.">
+  <meta name="twitter:image" content="https://yourdomain.com/pwa/icons/icon-512.jpg">
+
+  <!-- PWA -->
+  <link rel="manifest" href="pwa/manifest.json">
+  
+  <!-- ✅ الأيقونات بصيغة JPG كما طلبت -->
+  <link rel="icon" type="image/jpeg" sizes="192x192" href="pwa/icons/icon-192.jpg">
+  <link rel="apple-touch-icon" href="pwa/icons/icon-192.jpg">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <h1 data-i18n="app_title">مرجع Flexbox و Grid — الدروس والتمارين</h1>
+    <div class="header-controls">
+      <!-- Language Selector -->
+      <select id="langSelector" class="lang-selector" aria-label="اختر اللغة">
+        <option value="ar">العربية</option>
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+      </select>
+      
+      <!-- Dark Mode Toggle -->
+      <button id="darkModeToggle" class="dark-toggle" aria-label="تبديل الوضع الليلي">
+        <span class="icon-light">☀️</span>
+        <span class="icon-dark">🌙</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mode Segments -->
+  <div class="seg" id="modeSeg" role="tablist">
+    <button data-m="theory" class="on" role="tab" aria-selected="true" data-i18n="mode_theory">الدروس النظرية</button>
+    <button data-m="practice" role="tab" aria-selected="false" data-i18n="mode_practice">الدروس التطبيقية</button>
+    <button data-m="flex" role="tab" aria-selected="false" data-i18n="mode_flex">محاكي Flexbox</button>
+    <button data-m="grid" role="tab" aria-selected="false" data-i18n="mode_grid">محاكي Grid</button>
+    <button data-m="compare" role="tab" aria-selected="false" data-i18n="mode_compare">مقارنة</button>
+    <button data-m="quiz" role="tab" aria-selected="false" data-i18n="mode_quiz">اختبر نفسك</button>
+  </div>
+
+  <!-- Theory Section -->
+  <div id="theory">
+    <button id="toggleSidebarBtn" class="toggle-sidebar-btn" aria-label="إخفاء أو إظهار قائمة الدروس" aria-expanded="true">
+      📂 <span data-i18n="toggle_lessons">إخفاء/إظهار قائمة الدروس</span>
+    </button>
+    
+    <div class="grid2" id="theoryGrid">
+      <div class="panel side" id="lessonList" role="navigation"></div>
+      <div class="panel lesson" id="lessonBody">
+        <div id="appGoalWelcome">
+          <h2 data-i18n="welcome_title">🎯 هدف التطبيق</h2>
+          <p data-i18n="welcome_desc">هذا التطبيق مصمم خصيصاً ليرافقك خطوة بخطوة لاحتراف أنظمة التخطيط في CSS (وهي <strong>Flexbox</strong> و <strong>CSS Grid</strong>).</p>
+          <p style="color: var(--sec); margin-top: 20px;" data-i18n="welcome_hint">اختر أي درس من القائمة الجانبية لتختفي القائمة بأسلوب حركي هادئ ويبدأ الدرس فوراً!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Practice Section -->
+  <div id="practice" style="display:none">
+    <div class="chips" id="chips"></div>
+    <div class="grid2">
+      <div class="panel" id="pControls"></div>
+      <div>
+        <div class="cap">
+          <span style="font-weight:600" data-i18n="goal_title">الهدف المطلوب</span>
+          <span>?</span>
+        </div>
+        <div class="stage sm" id="goalStage" style="margin-bottom:12px"></div>
+        <div class="cap">
+          <span style="font-weight:600" data-i18n="your_try">تجربتك</span>
+          <span>✏️</span>
+        </div>
+        <div class="stage sm" id="userStage"></div>
+        <button class="pbtn" id="checkBtn" data-i18n="btn_check">تحقق من الحل</button>
+        <button class="pbtn ghost" id="hintBtn" data-i18n="btn_hint">تلميح</button>
+        <div class="msg" id="pMsg"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Play Section -->
+  <div id="play" style="display:none">
+    <div class="grid2">
+      <div class="panel" id="controls"></div>
+      <div>
+        <div id="stages"></div>
+        <pre id="codeOut"></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quiz Section -->
+  <div id="quiz" style="display:none">
+    <div class="panel">
+      <div class="cap">
+        <span id="qCount"></span>
+        <span id="qScore"></span>
+      </div>
+      <div id="qBody"></div>
+      <div class="expl" id="qExpl"></div>
+      <button class="pbtn" id="qNext" disabled data-i18n="btn_next">التالي</button>
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer class="app-footer">
+    <a href="index.html" data-i18n="footer_home">الرئيسية</a>
+    <span class="separator">•</span>
+    <a href="privacy.html" data-i18n="footer_privacy">سياسة الخصوصية</a>
+    <span class="separator">•</span>
+    <a href="terms.html" data-i18n="footer_terms">الشروط والأحكام</a>
+    <p class="copyright" data-i18n="footer_copyright">© 2026 مرجع Flexbox و Grid. جميع الحقوق محفوظة.</p>
+  </footer>
+
+<script src="js/theme.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>

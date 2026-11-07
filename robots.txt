@@ -1,0 +1,15 @@
+# robots.txt - توجيه محركات البحث
+# https://www.robotstxt.org/
+
+# السماح لجميع محركات البحث بالزحف
+User-agent: *
+Allow: /
+
+# منع الزحف لمجلدات خاصة (إن وجدت)
+# Disallow: /private/
+# Disallow: /admin/
+
+# خريطة الموقع
+Sitemap: https://yourdomain.com/sitemap.xml
+
+# ملاحظة: استبدل yourdomain.com بعنوان موقعك الفعلي

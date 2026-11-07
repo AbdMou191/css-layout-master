@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  
+  <!-- ✅ الكود السحري لمنع الوميض الأبيض -->
+  <script>
+    (function() {
+      try {
+        var isDark = localStorage.getItem('darkMode');
+        if (isDark === 'true' || (isDark === null && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111111">
+  
+  <!-- ✅ تحسينات SEO -->
+  <title data-i18n="terms_title">الشروط والأحكام | مرجع Flexbox و Grid</title>
+  <meta name="description" content="الشروط والأحكام لاستخدام تطبيق مرجع Flexbox و Grid. منصة تعليمية مجانية للاستخدام الشخصي والتعليمي.">
+  <meta name="robots" content="noindex, follow">
+  <meta name="author" content="Moussa Abderrezagui">
+  <link rel="canonical" href="https://yourdomain.com/terms.html">
+  
+  <meta property="og:title" content="الشروط والأحكام | مرجع Flexbox و Grid">
+  <meta property="og:description" content="الشروط والأحكام لاستخدام المنصة التعليمية التفاعلية لتعلم CSS.">
+  <meta property="og:image" content="https://yourdomain.com/pwa/icons/icon-512.jpg">
+  <meta property="og:url" content="https://yourdomain.com/terms.html">
+  <meta property="og:type" content="website">
+
+  <!-- PWA -->
+  <link rel="manifest" href="pwa/manifest.json">
+  
+  <!-- ✅ الأيقونات بصيغة JPG -->
+  <link rel="icon" type="image/jpeg" sizes="192x192" href="pwa/icons/icon-192.jpg">
+  <link rel="apple-touch-icon" href="pwa/icons/icon-192.jpg">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1 data-i18n="terms_title">الشروط والأحكام</h1>
+    <div class="header-controls">
+      <select id="langSelector" class="lang-selector" aria-label="اختر اللغة">
+        <option value="ar">العربية</option>
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+      </select>
+      <button id="darkModeToggle" class="dark-toggle" aria-label="تبديل الوضع الليلي">
+        <span class="icon-light">☀️</span>
+        <span class="icon-dark">🌙</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="panel legal-content">
+    <a href="index.html" class="back-link" data-i18n="back_to_home">← العودة إلى الصفحة الرئيسية</a>
+    
+    <h2 data-i18n="terms_h1">الشروط والأحكام</h2>
+    <p class="last-updated" data-i18n="terms_updated">آخر تحديث: 7 نوفمبر 2026</p>
+    
+    <section>
+      <h3 data-i18n="terms_s1_title">1. قبول الشروط</h3>
+      <p data-i18n="terms_s1_p1">باستخدامك لتطبيق "مرجع Flexbox و Grid"، فإنك توافق على الالتزام بهذه الشروط والأحكام. إذا لم توافق على أي من هذه الشروط، يرجى عدم استخدام التطبيق.</p>
+    </section>
+    
+    <section>
+      <h3 data-i18n="terms_s2_title">2. وصف الخدمة</h3>
+      <p data-i18n="terms_s2_p1">التطبيق هو منصة تعليمية مجانية تهدف إلى مساعدة المطورين والطلاب على تعلم أنظمة التخطيط في CSS (Flexbox و CSS Grid) من خلال:</p>
+      <ul>
+        <li data-i18n="terms_s2_li1">دروس نظرية شاملة</li>
+        <li data-i18n="terms_s2_li2">تمارين تطبيقية تفاعلية</li>
+        <li data-i18n="terms_s2_li3">محاكي حر لتجربة الخصائص</li>
+        <li data-i18n="terms_s2_li4">اختبارات لقياس الفهم</li>
+      </ul>
+    </section>
+    
+    <section>
+      <h3 data-i18n="terms_s3_title">3. الملكية الفكرية</h3>
+      <p data-i18n="terms_s3_p1">جميع المحتويات الموجودة في التطبيق (النصوص، الدروس، التمارين، الأكواد، التصميم) هي ملكية خاصة لصاحب التطبيق ومحمية بموجب قوانين حقوق النشر والملكية الفكرية.</p>
+      <p data-i18n="terms_s3_p2">يُسمح بالاستخدام الشخصي والتعليمي فقط. يُحظر:</p>
+      <ul>
+        <li data-i18n="terms_s3_li1">نسخ المحتوى أو إعادة نشره دون إذن</li>
+        <li data-i18n="terms_s3_li2">استخدام المحتوى لأغراض تجارية</li>
+        <li data-i18n="terms_s3_li3">تعديل المحتوى وإعادة توزيعه</li>
+      </ul>
+    </section>
+    
+    <section>
+      <h3 data-i18n="terms_s4_title">4. الاستخدام المقبول</h3>
+      <p data-i18n="terms_s4_p1">يُسمح لك باستخدام التطبيق للأغراض التالية:</p>
+      <ul>
+        <li data-i18n="terms_s4_li1">التعلم الشخصي</li>
+        <li data-i18n="terms_s4_li2">الاستخدام التعليمي في الفصول الدراسية</li>
+        <li data-i18n="terms_s4_li3">المرجع السريع أثناء العمل</li>
+      </ul>
+    </section>
+    
+    <section>
+      <h3 data-i18n="terms_s5_title">5. إخلاء المسؤولية</h3>
+      <p data-i18n="terms_s5_p1">التطبيق يُقدَّم "كما هو" (As Is) دون أي ضمانات من أي نوع، صريحة أو ضمنية.</p>
+      <p data-i18n="terms_s5_p2">نحن لا نضمن:</p>
+      <ul>
+        <li data-i18n="terms_s5_li1">دقة المعلومات بنسبة 100%</li>
+        <li data-i18n="terms_s5_li2">استمرارية الخدمة دون انقطاع</li>
+        <li data-i18n="terms_s5_li3">ملاءمة المحتوى لاحتياجاتك الخاصة</li>
+        <li data-i18n="terms_s5_li4">خلو التطبيق من الأخطاء البرمجية</li>
+      </ul>
+      <p data-i18n="terms_s5_p3">المستخدم يتحمل كامل المسؤولية عن استخدام المعلومات المستفادة من التطبيق.</p>
+    </section>
+    
+    <section>
+      <h3 data-i18n="terms_s6_title">6. حدود المسؤولية</h3>
+      <p data-i18n="terms_s6_p1">في أقصى حد يسمح به القانون، لن يكون صاحب التطبيق مسؤولاً عن أي أضرار مباشرة أو غير مباشرة ناتجة عن استخدام التطبيق أو عدم القدرة على استخدامه.</p>
+    </section>
+    
+    <section>
+      <h3 data-i18n="terms_s7_title">7. روابط خارجية</h3>
+      <p data-i18n="terms_s7_p1">قد يحتوي التطبيق على روابط لمواقع خارجية. نحن غير مسؤولين عن محتوى أو سياسات الخصوصية لتلك المواقع. ننصح بمراجعة شروطها الخاصة.</p>
+    </section>
+    
+    <section>
+      <h3 data-i18n="terms_s8_title">8. التعديلات على الخدمة</h3>
+      <p data-i18n="terms_s8_p1">نحتفظ بالحق في:</p>
+      <ul>
+        <li data-i18n="terms_s8_li1">تعديل أو إيقاف التطبيق في أي وقت دون إشعار مسبق</li>
+        <li data-i18n="terms_s8_li2">تحديث المحتوى أو إزالة أجزاء منه</li>
+        <li data-i18n="terms_s8_li3">تغيير هذه الشروط في أي وقت</li>
+      </ul>
+    </section>
+    
+    <section>
+      <h3 data-i18n="terms_s9_title">9. القانون الواجب التطبيق</h3>
+      <p data-i18n="terms_s9_p1">تخضع هذه الشروط والأحكام وتُفسَّر وفقاً للقوانين السارية في الجمهورية الجزائرية الديمقراطية الشعبية.</p>
+    </section>
+    
+    <section>
+      <h3 data-i18n="terms_s10_title">10. تغييرات على الشروط</h3>
+      <p data-i18n="terms_s10_p1">قد نقوم بتحديث هذه الشروط من وقت لآخر. سيُعلن عن أي تغييرات عبر تحديث تاريخ "آخر تحديث" في أعلى هذه الصفحة. استمرارك في استخدام التطبيق بعد إجراء التغييرات يعني قبولك للشروط الجديدة.</p>
+    </section>
+    
+    <section>
+      <h3 data-i18n="terms_s11_title">11. تواصل معنا</h3>
+      <p data-i18n="terms_s11_p1">إذا كان لديك أي استفسار حول هذه الشروط والأحكام، يمكنك التواصل معنا عبر:</p>
+      <p><strong data-i18n="terms_email_label">البريد الإلكتروني:</strong> <a href="mailto:moussa.abderrezagui191@gmail.com">moussa.abderrezagui191@gmail.com</a></p>
+    </section>
+  </div>
+
+  <footer class="app-footer">
+    <a href="index.html" data-i18n="footer_home">الرئيسية</a>
+    <span class="separator">•</span>
+    <a href="privacy.html" data-i18n="footer_privacy">سياسة الخصوصية</a>
+    <span class="separator">•</span>
+    <a href="terms.html" data-i18n="footer_terms">الشروط والأحكام</a>
+    <p class="copyright" data-i18n="footer_copyright">© 2026 مرجع Flexbox و Grid. جميع الحقوق محفوظة.</p>
+  </footer>
+
+  <script src="js/theme.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>
