@@ -1,6 +1,6 @@
 /* ============ Service Worker للعمل دون إنترنت ============ */
 
-var CACHE_NAME = 'css-layout-cache-v1';
+var CACHE_NAME = 'css-layout-cache-v2';
 var FILES_TO_CACHE = [
   '../index.html',
   '../css/style.css',
