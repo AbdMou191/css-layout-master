@@ -1,23 +1,24 @@
 /* ============ Service Worker للعمل دون إنترنت ============ */
 
 // ✅ اسم Cache جديد وفريد
-var CACHE_NAME = 'css-layout-cache-abdmou191-v1';
+var CACHE_NAME = 'css-layout-cache-abdmou191-v2';
 
+// ✅ المسارات الصحيحة (../ للرجوع إلى جذر المشروع)
 var FILES_TO_CACHE = [
-  './index.html',
-  './privacy.html',
-  './terms.html',
-  './css/style.css',
-  './js/theme.js',
-  './js/i18n.js',
-  './js/app.js',
-  './js/pwa.js',
-  './lang/ar.js',
-  './lang/en.js',
-  './lang/fr.js',
-  './pwa/icons/icon-192.jpg',
-  './pwa/icons/icon-512.jpg',
-  './pwa/manifest.json'
+  '../index.html',
+  '../privacy.html',
+  '../terms.html',
+  '../css/style.css',
+  '../js/theme.js',
+  '../js/i18n.js',
+  '../js/app.js',
+  '../js/pwa.js',
+  '../lang/ar.js',
+  '../lang/en.js',
+  '../lang/fr.js',
+  'icons/icon-192.jpg',
+  'icons/icon-512.jpg',
+  'manifest.json'
 ];
 
 /* ============ التثبيت (Install) ============ */
@@ -27,12 +28,15 @@ self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(function(cache) {
-        console.log('[SW CSS-Master] تخزين الملفات في Cache');
+        console.log('[SW CSS-Master] تخزين الملفات:', FILES_TO_CACHE);
         return cache.addAll(FILES_TO_CACHE);
       })
       .then(function() {
         console.log('[SW CSS-Master] تم التثبيت بنجاح');
         return self.skipWaiting();
+      })
+      .catch(function(error) {
+        console.error('[SW CSS-Master] فشل التثبيت:', error);
       })
   );
 });
@@ -45,7 +49,6 @@ self.addEventListener('activate', function(event) {
     caches.keys().then(function(cacheNames) {
       return Promise.all(
         cacheNames.map(function(cacheName) {
-          // ✅ حذف جميع الـ caches القديمة (من MathLinguistic أو إصدارات سابقة)
           if (cacheName !== CACHE_NAME) {
             console.log('[SW CSS-Master] حذف Cache قديم:', cacheName);
             return caches.delete(cacheName);
@@ -72,7 +75,7 @@ self.addEventListener('fetch', function(event) {
         
         return fetch(event.request)
           .then(function(response) {
-            if (!response || response.status !== 200 || response.type !== 'basic') {
+            if (!response || response.status !== 200) {
               return response;
             }
             
@@ -87,8 +90,9 @@ self.addEventListener('fetch', function(event) {
           })
           .catch(function(error) {
             console.error('[SW CSS-Master] فشل الجلب:', error);
+            // ✅ عند فشل الاتصال، إرجاع الصفحة الرئيسية
             if (event.request.mode === 'navigate') {
-              return caches.match('./index.html');
+              return caches.match('../index.html');
             }
           });
       })
