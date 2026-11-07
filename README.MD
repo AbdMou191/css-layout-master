@@ -19,9 +19,13 @@
 
 ## 📸 لقطات شاشة
 ![الدروس النضرية](screenshots/home.jpg)
+
 ![الدروس التطبيقية](screenshots/home-1.jpg)
+
 ![ محاكي grid](screenshots/home-2.jpg)
+
 ![ محاكي flexbox](screenshots/home-3.jpg)
+
 ![اختبر نفسك](screenshots/home-4.jpg)
 
 # 🎨 مرجع Flexbox و Grid — دروس وتمارين
