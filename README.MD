@@ -19,7 +19,10 @@
 
 ## 📸 لقطات شاشة
 ![الواجهة الرئيسية](screenshots/home.jpg)
-![الوضع الليلي](screenshots/dark-mode.jpg)
+![واجهة التمارين](screenshots/home-1.jpg)
+![ تمرين واحد](screenshots/home-2.jpg)
+![ اختبر نفسك](screenshots/home-3.jpg)
+![الوضع الليلي](screenshots/home-5.jpg)
 
 # 🎨 مرجع Flexbox و Grid — دروس وتمارين
 
