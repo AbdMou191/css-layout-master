@@ -1,0 +1,43 @@
+/* ============ منع السحب للتحديث (Pull-to-Refresh) ============ */
+
+(function() {
+  'use strict';
+
+  // ✅ منع السحب من الأعلى للتحديث
+  var startY = 0;
+  var isScrolling = false;
+
+  document.addEventListener('touchstart', function(e) {
+    startY = e.touches[0].clientY;
+    isScrolling = false;
+  }, { passive: true });
+
+  document.addEventListener('touchmove', function(e) {
+    var currentY = e.touches[0].clientY;
+    var deltaY = currentY - startY;
+
+    // إذا كان المستخدم في أعلى الصفحة ويسحب للأسفل
+    if (window.scrollY === 0 && deltaY > 0) {
+      e.preventDefault();
+      isScrolling = true;
+    }
+  }, { passive: false });
+
+  // ✅ منع تحديث الصفحة بالسحب في iOS
+  document.body.addEventListener('touchmove', function(e) {
+    if (e.touches.length > 1) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  // ✅ منع السحب في Chrome على Android
+  document.addEventListener('gesturestart', function(e) {
+    e.preventDefault();
+  });
+
+  document.addEventListener('gesturechange', function(e) {
+    e.preventDefault();
+  });
+
+  console.log('[Pull-Refresh] تم تعطيل السحب للتحديث');
+})();
