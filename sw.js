@@ -1,21 +1,21 @@
 var CACHE_NAME = 'css-layout-cache-abdmou191-v5';
 
 var FILES_TO_CACHE = [
-  './',
-  './index.html',
-  './privacy.html',
-  './terms.html',
-  './css/style.css',
-  './js/theme.js',
-  './js/i18n.js',
-  './js/app.js',
-  './js/pwa.js',
-  './lang/ar.js',
-  './lang/en.js',
-  './lang/fr.js',
-  './manifest.json',
-  './icons/icon-192.jpg',
-  './icons/icon-512.jpg'
+  './css-layout-master/',
+  './css-layout-master/index.html',
+  './css-layout-master/privacy.html',
+  './css-layout-master/terms.html',
+  './css-layout-master/css/style.css',
+  './css-layout-master/js/theme.js',
+  './css-layout-master/js/i18n.js',
+  './css-layout-master/js/app.js',
+  './css-layout-master/js/pwa.js',
+  './css-layout-master/lang/ar.js',
+  './css-layout-master/lang/en.js',
+  './css-layout-master/lang/fr.js',
+  './css-layout-master/manifest.json',
+  './css-layout-master/icons/icon-192.jpg',
+  './css-layout-master/icons/icon-512.jpg'
 ];
 
 self.addEventListener('install', function(event) {
