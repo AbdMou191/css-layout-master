@@ -7,6 +7,7 @@ var FILES_TO_CACHE = [
   './css-layout-master/terms.html',
   './css-layout-master/css/style.css',
   './css-layout-master/js/theme.js',
+  './css-layout-master/js/disable-pull-refresh.js',
   './css-layout-master/js/i18n.js',
   './css-layout-master/js/app.js',
   './css-layout-master/js/pwa.js',
