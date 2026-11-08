@@ -1,45 +1,47 @@
-/* ============ نظام PWA المتقدم ============ */
+/* ============ نظام PWA المحسّن ============ */
 
 (function() {
   'use strict';
   
   var deferredPrompt = null;
 
-  // ✅ دالة تنظيف Service Workers القديمة
   function cleanOldServiceWorkers() {
     if (!('serviceWorker' in navigator)) return;
     
     navigator.serviceWorker.getRegistrations().then(function(registrations) {
       registrations.forEach(function(registration) {
-        if (registration.active && registration.active.scriptURL) {
-          var scriptUrl = registration.active.scriptURL;
-          // إلغاء Service Workers التي ليست من css-layout-master
-          if (!scriptUrl.includes('css-layout-master/pwa/sw.js')) {
-            registration.unregister().then(function() {
-              console.log('[PWA] تم إلغاء Service Worker قديم:', scriptUrl);
-            });
-          }
-        }
+        console.log('[PWA] Service Worker موجود:', registration.scope);
+        registration.unregister().then(function() {
+          console.log('[PWA] تم إلغاء Service Worker قديم');
+        });
       });
     });
   }
 
-  // ✅ دالة تسجيل Service Worker
   function registerServiceWorker() {
     if (!('serviceWorker' in navigator)) {
       console.warn('Service Worker غير مدعوم');
       return;
     }
     
-    // ✅ المسار الصحيح لـ sw.js من موقع js/pwa.js
-    navigator.serviceWorker.register('../pwa/sw.js', { scope: '../' })
+    navigator.serviceWorker.register('./sw.js')
       .then(function(registration) {
-        console.log('✅ Service Worker CSS-Master تم تسجيله:', registration.scope);
+        console.log('✅ Service Worker تم تسجيله:', registration.scope);
+        
+        // ✅ التحقق من حالة Service Worker
+        if (registration.installing) {
+          console.log('[PWA] Service Worker في حالة التثبيت...');
+        } else if (registration.waiting) {
+          console.log('[PWA] Service Worker في حالة الانتظار...');
+        } else if (registration.active) {
+          console.log('[PWA] Service Worker نشط ويعمل!');
+        }
         
         registration.addEventListener('updatefound', function() {
           var newWorker = registration.installing;
           if (newWorker) {
             newWorker.addEventListener('statechange', function() {
+              console.log('[PWA] حالة Service Worker:', newWorker.state);
               if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
                 console.log('🔄 تحديث جديد متاح!');
               }
@@ -52,7 +54,6 @@
       });
   }
 
-  // ✅ دالة زر التثبيت المخصص
   function createInstallButton() {
     var installButton = document.getElementById('installAppBtn');
     if (!installButton) return;
@@ -87,7 +88,6 @@
     });
   }
 
-  // ✅ التهيئة
   function initPWA() {
     cleanOldServiceWorkers();
     registerServiceWorker();
