@@ -1,9 +1,7 @@
-/* ============ Service Worker للعمل دون إنترنت ============ */
+var CACHE_NAME = 'css-layout-cache-abdmou191-v5';
 
-var CACHE_NAME = 'css-layout-cache-abdmou191-v3';
-
-// ✅ المسارات الآن من الجذر مباشرة (بدون ../)
 var FILES_TO_CACHE = [
+  './',
   './index.html',
   './privacy.html',
   './terms.html',
@@ -20,30 +18,34 @@ var FILES_TO_CACHE = [
   './icons/icon-512.jpg'
 ];
 
-/* ============ التثبيت (Install) ============ */
 self.addEventListener('install', function(event) {
-  console.log('[SW] التثبيت...');
-  
+  console.log('[SW] بدء التثبيت...');
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(function(cache) {
-        console.log('[SW] تخزين الملفات:', FILES_TO_CACHE.length, 'ملف');
+        console.log('[SW] فتح Cache:', CACHE_NAME);
         return cache.addAll(FILES_TO_CACHE);
       })
       .then(function() {
-        console.log('[SW] تم التثبيت بنجاح');
+        console.log('[SW] تم تخزين', FILES_TO_CACHE.length, 'ملف بنجاح');
         return self.skipWaiting();
       })
       .catch(function(error) {
         console.error('[SW] فشل التثبيت:', error);
+        // محاولة تخزين الملفات واحداً تلو الآخر
+        return Promise.all(
+          FILES_TO_CACHE.map(function(url) {
+            return cache.add(url).catch(function(err) {
+              console.warn('[SW] فشل تخزين:', url, err);
+            });
+          })
+        );
       })
   );
 });
 
-/* ============ التفعيل (Activate) ============ */
 self.addEventListener('activate', function(event) {
-  console.log('[SW] التفعيل...');
-  
+  console.log('[SW] بدء التفعيل...');
   event.waitUntil(
     caches.keys().then(function(cacheNames) {
       return Promise.all(
@@ -55,13 +57,12 @@ self.addEventListener('activate', function(event) {
         })
       );
     }).then(function() {
-      console.log('[SW] تم التفعيل بنجاح');
+      console.log('[SW] تم التفعيل');
       return self.clients.claim();
     })
   );
 });
 
-/* ============ اعتراض الطلبات (Fetch) ============ */
 self.addEventListener('fetch', function(event) {
   if (event.request.method !== 'GET') return;
   
@@ -69,21 +70,19 @@ self.addEventListener('fetch', function(event) {
     caches.match(event.request)
       .then(function(cachedResponse) {
         if (cachedResponse) {
+          console.log('[SW] إرجاع من Cache:', event.request.url);
           return cachedResponse;
         }
         
+        console.log('[SW] جلب من الشبكة:', event.request.url);
         return fetch(event.request)
           .then(function(response) {
-            if (!response || response.status !== 200) {
-              return response;
-            }
+            if (!response || response.status !== 200) return response;
             
             var responseToCache = response.clone();
-            
-            caches.open(CACHE_NAME)
-              .then(function(cache) {
-                cache.put(event.request, responseToCache);
-              });
+            caches.open(CACHE_NAME).then(function(cache) {
+              cache.put(event.request, responseToCache);
+            });
             
             return response;
           })
