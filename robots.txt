@@ -10,6 +10,6 @@ Allow: /
 # Disallow: /admin/
 
 # خريطة الموقع
-Sitemap: https://yourdomain.com/sitemap.xml
+Sitemap: https://abdmou191.github.io/css-layout-master/sitemap.xml
 
 # ملاحظة: استبدل yourdomain.com بعنوان موقعك الفعلي
