@@ -414,7 +414,7 @@ pre {
     border-color .3s ease,
     max-height .35s ease,
     margin .35s ease;
-  overflow: hidden;
+  overflow: auto;
   min-width: 0;
 }
 
