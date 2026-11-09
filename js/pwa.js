@@ -24,7 +24,8 @@
       return;
     }
     
-    navigator.serviceWorker.register('./sw.js')
+    navigator.serviceWorker.register('/css-layout-master/sw.js')
+
       .then(function(registration) {
         console.log('✅ Service Worker تم تسجيله:', registration.scope);
         
