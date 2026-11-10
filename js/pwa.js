@@ -24,12 +24,11 @@
       return;
     }
     
-    navigator.serviceWorker.register('./sw.js', { scope: './' })
-
+    // ✅ التصحيح: ../sw.js للرجوع إلى الجذر
+    navigator.serviceWorker.register('../sw.js', { scope: '/' })
       .then(function(registration) {
         console.log('✅ Service Worker تم تسجيله:', registration.scope);
         
-        // ✅ التحقق من حالة Service Worker
         if (registration.installing) {
           console.log('[PWA] Service Worker في حالة التثبيت...');
         } else if (registration.waiting) {
