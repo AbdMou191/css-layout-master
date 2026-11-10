@@ -58,7 +58,6 @@
     // الاستماع لتغييرات تفضيل النظام
     if (window.matchMedia) {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-        // فقط إذا لم يكن هناك تفضيل محفوظ يدوياً
         var saved = null;
         try {
           saved = localStorage.getItem('darkMode');
@@ -77,4 +76,40 @@
   } else {
     initTheme();
   }
-})();
+
+  // ========== منع السحب للتحديث ==========
+  (function() {
+    var startY = 0;
+
+    document.addEventListener('touchstart', function(e) {
+      startY = e.touches[0].clientY;
+    }, { passive: true });
+
+    document.addEventListener('touchmove', function(e) {
+      var currentY = e.touches[0].clientY;
+      var deltaY = currentY - startY;
+
+      // منع السحب للتحديث فقط إذا كانت الصفحة في الأعلى تماماً والسحب نحو الأسفل
+      if (window.scrollY === 0 && deltaY > 0) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    document.body.addEventListener('touchmove', function(e) {
+      if (e.touches.length > 1) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    document.addEventListener('gesturestart', function(e) {
+      e.preventDefault();
+    });
+
+    document.addEventListener('gesturechange', function(e) {
+      e.preventDefault();
+    });
+
+    console.log('[Theme] تم تهيئة النظام وتعديل إيماءات اللمس بنجاح');
+  })();
+
+})(); // <--- إغلاق الدالة الرئيسية الخارجية بشكل صحيح
