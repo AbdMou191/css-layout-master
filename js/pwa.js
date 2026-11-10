@@ -24,7 +24,7 @@
       return;
     }
     
-    navigator.serviceWorker.register('/css-layout-master/sw.js')
+    navigator.serviceWorker.register('./sw.js', { scope: './' })
 
       .then(function(registration) {
         console.log('✅ Service Worker تم تسجيله:', registration.scope);
