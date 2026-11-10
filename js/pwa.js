@@ -1,4 +1,4 @@
-/* ============ نظام PWA المحسّن ============ */
+/* ============ نظام PWA المحسّن لـ GitHub Pages ============ */
 
 (function() {
   'use strict';
@@ -10,9 +10,9 @@
     
     navigator.serviceWorker.getRegistrations().then(function(registrations) {
       registrations.forEach(function(registration) {
-        console.log('[PWA] Service Worker موجود:', registration.scope);
+        console.log('[PWA] العثور على Service Worker:', registration.scope);
         registration.unregister().then(function() {
-          console.log('[PWA] تم إلغاء Service Worker قديم');
+          console.log('[PWA] تم إلغاء Service Worker القديم بنجاح');
         });
       });
     });
@@ -20,37 +20,35 @@
 
   function registerServiceWorker() {
     if (!('serviceWorker' in navigator)) {
-      console.warn('Service Worker غير مدعوم');
+      console.warn('Service Worker غير مدعوم في هذا المتصفح');
       return;
     }
     
-    // ✅ التصحيح: ../sw.js للرجوع إلى الجذر
-    navigator.serviceWorker.register('../sw.js', { scope: '/' })
+    // ✅ الحل السحري: استخدام ../sw.js بدون تحديد scope
+    // هذا يجعل المتصفح يأخذ النطاق الافتراضي للملف (جذر المشروع)
+    navigator.serviceWorker.register('../sw.js')
       .then(function(registration) {
-        console.log('✅ Service Worker تم تسجيله:', registration.scope);
+        console.log('✅ تم تسجيل Service Worker بنجاح! النطاق:', registration.scope);
         
         if (registration.installing) {
-          console.log('[PWA] Service Worker في حالة التثبيت...');
+          console.log('[PWA] حالة Service Worker: جاري التثبيت...');
         } else if (registration.waiting) {
-          console.log('[PWA] Service Worker في حالة الانتظار...');
+          console.log('[PWA] حالة Service Worker: في الانتظار...');
         } else if (registration.active) {
-          console.log('[PWA] Service Worker نشط ويعمل!');
+          console.log('[PWA] حالة Service Worker: نشط ويعمل!');
         }
         
         registration.addEventListener('updatefound', function() {
           var newWorker = registration.installing;
           if (newWorker) {
             newWorker.addEventListener('statechange', function() {
-              console.log('[PWA] حالة Service Worker:', newWorker.state);
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                console.log('🔄 تحديث جديد متاح!');
-              }
+              console.log('[PWA] تغيرت حالة Service Worker إلى:', newWorker.state);
             });
           }
         });
       })
       .catch(function(error) {
-        console.error('❌ فشل تسجيل Service Worker:', error);
+        console.error('❌ فشل تسجيل Service Worker. التفاصيل:', error);
       });
   }
 
@@ -62,19 +60,19 @@
       e.preventDefault();
       deferredPrompt = e;
       installButton.style.display = 'block';
-      console.log('[PWA] زر التثبيت جاهز');
+      console.log('[PWA] زر التثبيت أصبح جاهظاً');
     });
     
     installButton.addEventListener('click', function() {
       if (!deferredPrompt) {
-        alert('لتثبيت التطبيق:\n1. اضغط على ⋮ (ثلاث نقاط)\n2. اختر "تثبيت التطبيق"');
+        alert('لتثبيت التطبيق:\n1. اضغط على ⋮ (ثلاث نقاط)\n2. اختر "تثبيت التطبيق" أو "Add to Home Screen"');
         return;
       }
       
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then(function(choiceResult) {
         if (choiceResult.outcome === 'accepted') {
-          console.log('✅ تم قبول التثبيت');
+          console.log('✅ وافق المستخدم على التثبيت');
           installButton.style.display = 'none';
         }
         deferredPrompt = null;
@@ -84,7 +82,7 @@
     window.addEventListener('appinstalled', function() {
       installButton.style.display = 'none';
       deferredPrompt = null;
-      console.log('🎉 تم تثبيت التطبيق!');
+      console.log('🎉 تم تثبيت التطبيق بنجاح على الجهاز!');
     });
   }
 
