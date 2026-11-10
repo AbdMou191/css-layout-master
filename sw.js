@@ -1,21 +1,22 @@
-var CACHE_NAME = 'css-layout-cache-abdmou191-v5';
+var CACHE_NAME = 'css-layout-cache-abdmou191-v7'; // تم تحديث الإصدار لفرض التحديث
 
+// ✅ المسارات الصحيحة (بدون تكرار اسم المجلد)
 var FILES_TO_CACHE = [
-  './css-layout-master/',
-  './css-layout-master/index.html',
-  './css-layout-master/privacy.html',
-  './css-layout-master/terms.html',
-  './css-layout-master/css/style.css',
-  './css-layout-master/js/theme.js',
-  './css-layout-master/js/i18n.js',
-  './css-layout-master/js/app.js',
-  './css-layout-master/js/pwa.js',
-  './css-layout-master/lang/ar.js',
-  './css-layout-master/lang/en.js',
-  './css-layout-master/lang/fr.js',
-  './css-layout-master/manifest.json',
-  './css-layout-master/icons/icon-192.jpg',
-  './css-layout-master/icons/icon-512.jpg'
+  './',
+  './index.html',
+  './privacy.html',
+  './terms.html',
+  './css/style.css',
+  './js/theme.js',
+  './js/i18n.js',
+  './js/app.js',
+  './js/pwa.js',
+  './lang/ar.js',
+  './lang/en.js',
+  './lang/fr.js',
+  './manifest.json',
+  './icons/icon-192.jpg',
+  './icons/icon-512.jpg'
 ];
 
 self.addEventListener('install', function(event) {
@@ -32,14 +33,6 @@ self.addEventListener('install', function(event) {
       })
       .catch(function(error) {
         console.error('[SW] فشل التثبيت:', error);
-        // محاولة تخزين الملفات واحداً تلو الآخر
-        return Promise.all(
-          FILES_TO_CACHE.map(function(url) {
-            return cache.add(url).catch(function(err) {
-              console.warn('[SW] فشل تخزين:', url, err);
-            });
-          })
-        );
       })
   );
 });
@@ -70,11 +63,9 @@ self.addEventListener('fetch', function(event) {
     caches.match(event.request)
       .then(function(cachedResponse) {
         if (cachedResponse) {
-          console.log('[SW] إرجاع من Cache:', event.request.url);
           return cachedResponse;
         }
         
-        console.log('[SW] جلب من الشبكة:', event.request.url);
         return fetch(event.request)
           .then(function(response) {
             if (!response || response.status !== 200) return response;
