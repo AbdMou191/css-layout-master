@@ -1,4 +1,4 @@
-var CACHE_NAME = 'css-layout-cache-abdmou191-v7'; // تم تحديث الإصدار لفرض التحديث
+var CACHE_NAME = 'css-layout-cache-abdmou191-v8'; // تم تحديث الإصدار لفرض التحديث
 
 // ✅ المسارات الصحيحة (بدون تكرار اسم المجلد)
 var FILES_TO_CACHE = [
