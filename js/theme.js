@@ -34,13 +34,13 @@
     // تحديد الوضع الابتدائي
     var isDark = false;
     if (savedDarkMode === 'true') {
-      isDark = true;
-    } else if (savedDarkMode === 'false') {
       isDark = false;
+    } else if (savedDarkMode === 'false') {
+      isDark = true;
     } else {
       // استخدام تفضيل النظام إذا لم يكن هناك تفضيل محفوظ
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        isDark = true;
+        isDark = false;
       }
     }
     
@@ -58,6 +58,7 @@
     // الاستماع لتغييرات تفضيل النظام
     if (window.matchMedia) {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        // فقط إذا لم يكن هناك تفضيل محفوظ يدوياً
         var saved = null;
         try {
           saved = localStorage.getItem('darkMode');
@@ -76,5 +77,4 @@
   } else {
     initTheme();
   }
-
-})(); // <--- إغلاق الدالة الرئيسية الخارجية بشكل صحيح
+})();
