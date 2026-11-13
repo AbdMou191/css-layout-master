@@ -26,7 +26,7 @@
     
     // ✅ الحل السحري: استخدام ../sw.js بدون تحديد scope
     // هذا يجعل المتصفح يأخذ النطاق الافتراضي للملف (جذر المشروع)
-    navigator.serviceWorker.register('./sw.js')
+    navigator.serviceWorker.register('/css-layout-master/sw.js')
       .then(function(registration) {
         console.log('✅ تم تسجيل Service Worker بنجاح! النطاق:', registration.scope);
         
