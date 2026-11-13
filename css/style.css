@@ -64,6 +64,10 @@ html.dark, body.dark {
   box-sizing: border-box;
 }
 
+html, body {
+  overscroll-behavior-y: none;
+}
+
 body {
   position: fixed;
   width: 100%;
