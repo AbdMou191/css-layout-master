@@ -1,14 +1,14 @@
-/* ============ نظام الوضع الليلي - يعمل في جميع الصفحات ============ */
+/* ============ نظام الوضع الليلي - يعمل في جميع الصفحات والتطبيق المثبت ============ */
 
 (function() {
   'use strict';
 
-  // دالة تطبيق الوضع الليلي
+  // دالة تطبيق الوضع الليلي (تستخدم documentElement ليتطابق مع الكود السحري)
   function applyDarkMode(isDark) {
     if (isDark) {
-      document.body.classList.add('dark');
+      document.documentElement.classList.add('dark');
     } else {
-      document.body.classList.remove('dark');
+      document.documentElement.classList.remove('dark');
     }
     
     // حفظ التفضيل
@@ -31,39 +31,40 @@
       console.warn('لا يمكن الوصول إلى localStorage');
     }
     
-    // تحديد الوضع الابتدائي
+    // ✅ تحديد الوضع الابتدائي (تم تصحيح المنطق المقلوب)
     var isDark = false;
     if (savedDarkMode === 'true') {
-      isDark = false;
-    } else if (savedDarkMode === 'false') {
       isDark = true;
+    } else if (savedDarkMode === 'false') {
+      isDark = false;
     } else {
       // استخدام تفضيل النظام إذا لم يكن هناك تفضيل محفوظ
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        isDark = false;
+        isDark = true;
       }
     }
     
-    // تطبيق الوضع الابتدائي
+    // تطبيق الوضع الابتدائي فوراً
     applyDarkMode(isDark);
     
     // إضافة مستمع الحدث للزر (إن وجد)
     if (darkToggle) {
-      darkToggle.addEventListener('click', function() {
-        var currentIsDark = document.body.classList.contains('dark');
+      darkToggle.addEventListener('click', function(e) {
+        e.preventDefault(); // منع أي سلوك افتراضي قد يتداخل
+        var currentIsDark = document.documentElement.classList.contains('dark');
         applyDarkMode(!currentIsDark);
       });
     }
     
-    // الاستماع لتغييرات تفضيل النظام
+    // الاستماع لتغييرات تفضيل النظام (لو غير المستخدم إعدادات هاتفه)
     if (window.matchMedia) {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-        // فقط إذا لم يكن هناك تفضيل محفوظ يدوياً
         var saved = null;
         try {
           saved = localStorage.getItem('darkMode');
         } catch (e) {}
         
+        // نغير الوضع تلقائياً فقط إذا لم يقم المستخدم بتحديد تفضيل يدوي سابقاً
         if (saved === null) {
           applyDarkMode(e.matches);
         }
