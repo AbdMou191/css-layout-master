@@ -945,9 +945,9 @@ code {
 
 /* ============ منع السحب للتحديث في التطبيق المثبت فقط ============ */
 @media (display-mode: standalone) {
-  html, body {
+  /*html, body {
     overscroll-behavior-y: none;
-  }
+  }*/
 }
 
 /* ============ زر التحديث اليدوي ============ */
