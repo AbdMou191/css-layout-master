@@ -64,12 +64,6 @@ html.dark, body.dark {
   box-sizing: border-box;
 }
 
-/* ============ منع السحب للتحديث (Pull-to-Refresh) ============ */
-html, body {
-  overscroll-behavior-y: none;
-  overflow-x: hidden;
-}
-
 body {
   position: fixed;
   width: 100%;
