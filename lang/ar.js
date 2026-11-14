@@ -368,6 +368,12 @@ window.TRANSLATIONS['ar'] = {
       o: ['justify-content: center فقط', 'align-items: center فقط', 'justify-content: center مع align-items: center', 'flex-direction: center'],
       a: 2,
       e: 'نحتاج المحورين معاً: justify-content للأفقي و align-items للعمودي.'
+    },
+    //زر المشاركة
+    {
+      share_result: 'مشاركة النتيجة',
+  share_text: 'لقد حصلت على',
+  copied_to_clipboard: 'تم نسخ الرابط! يمكنك لصقه في أي مكان.',
     }
   ], 
   // ============ الفوتر ============
