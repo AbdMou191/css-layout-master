@@ -368,6 +368,11 @@ window.TRANSLATIONS['es'] = {
       o: ['Solo justify-content: center', 'Solo align-items: center', 'justify-content: center con align-items: center', 'flex-direction: center'],
       a: 2,
       e: 'Necesitamos ambos ejes juntos: justify-content para horizontal y align-items para vertical.'
+    }, 
+    {
+      share_result: 'Compartir resultado',
+  share_text: 'Obtuve',
+  copied_to_clipboard: '¡Enlace copiado! Puedes pegarlo en cualquier lugar.',
     }
   ],
   
