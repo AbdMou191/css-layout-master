@@ -368,6 +368,11 @@ window.TRANSLATIONS['en'] = {
       o: ['justify-content: center only', 'align-items: center only', 'justify-content: center with align-items: center', 'flex-direction: center'],
       a: 2,
       e: 'We need both axes together: justify-content for horizontal and align-items for vertical.'
+    },
+    {
+      share_result: 'Share Result',
+  share_text: 'I scored',
+  copied_to_clipboard: 'Link copied! You can paste it anywhere.',
     }
   ], 
   // ============ Footer ============
