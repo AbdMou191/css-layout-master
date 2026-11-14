@@ -368,6 +368,11 @@ window.TRANSLATIONS['tr'] = {
       o: ['Yalnızca justify-content: center', 'Yalnızca align-items: center', 'justify-content: center ve align-items: center birlikte', 'flex-direction: center'],
       a: 2,
       e: 'Her iki eksene birlikte ihtiyacımız var: yatay için justify-content ve dikey için align-items.'
+    }, 
+    {
+      share_result: 'Sonucu paylaş',
+  share_text: 'Aldığım puan:',
+  copied_to_clipboard: 'Bağlantı kopyalandı! Herhangi bir yere yapıştırabilirsiniz.',
     }
   ],
   
