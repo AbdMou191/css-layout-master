@@ -317,26 +317,29 @@ function showMsg(t, cls) {
   m.className = 'msg ' + cls;
 }
 
-$('#checkBtn').onclick = function() {
-  var langData = translations[currentLang];
-  if (!langData || !langData.challenges) return;
-  
-  var c = langData.challenges[chIdx];
-  if (!c) return;
-  
-  var ok = true;
-  Object.keys(c.target).forEach(function(k) {
-    if (chS[k] !== c.target[k]) ok = false;
-  });
-  
-  if (ok) {
-    chDone[chIdx] = true;
-    showMsg(langData.msg_success, 'ok');
-    renderChips();
-  } else {
-    showMsg(langData.msg_error, 'no');
-  }
-};
+var checkBtn = $('#checkBtn');
+if (checkBtn) {
+  checkBtn.onclick = function() {
+    var langData = translations[currentLang];
+    if (!langData || !langData.challenges) return;
+    
+    var c = langData.challenges[chIdx];
+    if (!c) return;
+    
+    var ok = true;
+    Object.keys(c.target).forEach(function(k) {
+      if (chS[k] !== c.target[k]) ok = false;
+    });
+    
+    if (ok) {
+      chDone[chIdx] = true;
+      showMsg(langData.msg_success, 'ok');
+      renderChips();
+    } else {
+      showMsg(langData.msg_error, 'no');
+    }
+  };
+}
 
 /* ============ المحاكي الحر ============ */
 function buildStage(type) {
@@ -529,39 +532,76 @@ function showQ() {
   nx.textContent = qi === langData.quiz.length - 1 ? langData.show_result : langData.btn_next;
 }
 
-$('#qNext').onclick = function() {
-  var langData = translations[currentLang];
-  if (!langData || !langData.quiz) return;
-  
-  if (qi < langData.quiz.length - 1) {
-    qi++;
-    showQ();
-  } else {
-    var pct = Math.round(qOk / langData.quiz.length * 100);
-    var body = $('#qBody');
-    body.innerHTML = '';
+var qNextBtn = $('#qNext');
+if (qNextBtn) {
+  qNextBtn.onclick = function() {
+    var langData = translations[currentLang];
+    if (!langData || !langData.quiz) return;
     
-    var s = document.createElement('div');
-    s.className = 'score';
-    s.textContent = qOk + ' / ' + langData.quiz.length;
-    
-    var m = document.createElement('div');
-    m.style.marginTop = '8px';
-    m.style.fontSize = '14px';
-    m.textContent = pct >= 75 ? langData.excellent : pct >= 50 ? langData.good : langData.need_practice;
-    
-    body.appendChild(s);
-    body.appendChild(m);
-    
-    $('#qExpl').style.display = 'none';
-    var nx = $('#qNext');
-    nx.textContent = langData.restart_quiz;
-    nx.onclick = function() {
-      nx.onclick = null;
-      startQuiz();
-    };
-  }
-};
+    if (qi < langData.quiz.length - 1) {
+      qi++;
+      showQ();
+    } else {
+      var pct = Math.round(qOk / langData.quiz.length * 100);
+      var body = $('#qBody');
+      body.innerHTML = '';
+      
+      var s = document.createElement('div');
+      s.className = 'score';
+      s.textContent = qOk + ' / ' + langData.quiz.length;
+      
+      var m = document.createElement('div');
+      m.style.marginTop = '8px';
+      m.style.fontSize = '14px';
+      m.textContent = pct >= 75 ? langData.excellent : pct >= 50 ? langData.good : langData.need_practice;
+      
+      body.appendChild(s);
+      body.appendChild(m);
+      
+      // ✅ زر مشاركة النتيجة المضاف حديثاً
+      var shareBtn = document.createElement('button');
+      shareBtn.className = 'pbtn share-btn';
+      shareBtn.textContent = '📤 ' + (langData.share_result || 'مشاركة النتيجة');
+      shareBtn.style.marginTop = '16px';
+      shareBtn.style.width = '100%';
+      shareBtn.onclick = function() {
+        var shareText = langData.share_text || 'لقد حصلت على';
+        var shareUrl = window.location.href;
+        var message = shareText + ' ' + qOk + '/' + langData.quiz.length + ' 🎯\n\n' + shareUrl;
+        
+        if (navigator.share) {
+          navigator.share({
+            title: langData.app_title || 'مرجع Flexbox و Grid',
+            text: message,
+            url: shareUrl
+          }).catch(function(err) {
+            console.log('مشاركة ملغاة:', err);
+          });
+        } else {
+          var shareWindow = window.open(
+            'https://twitter.com/intent/tweet?text=' + encodeURIComponent(message),
+            '_blank',
+            'width=600,height=400'
+          );
+          if (!shareWindow) {
+            navigator.clipboard.writeText(message).then(function() {
+              alert(langData.copied_to_clipboard || 'تم نسخ الرابط! يمكنك لصقه في أي مكان.');
+            });
+          }
+        }
+      };
+      body.appendChild(shareBtn);
+      
+      $('#qExpl').style.display = 'none';
+      var nx = $('#qNext');
+      nx.textContent = langData.restart_quiz;
+      nx.onclick = function() {
+        nx.onclick = null;
+        startQuiz();
+      };
+    }
+  };
+}
 
 /* ============ التنقل العام ============ */
 var modeSeg = $('#modeSeg');
@@ -599,71 +639,8 @@ if (toggleSidebarBtn) {
   };
 }
 
-/* ============ أزرار التمارين والاختبار ============ */
-var checkBtn = $('#checkBtn');
-if (checkBtn) {
-  checkBtn.onclick = function() {
-    var langData = translations[currentLang];
-    if (!langData || !langData.challenges) return;
-    
-    var c = langData.challenges[chIdx];
-    if (!c) return;
-    
-    var ok = true;
-    Object.keys(c.target).forEach(function(k) {
-      if (chS[k] !== c.target[k]) ok = false;
-    });
-    
-    if (ok) {
-      chDone[chIdx] = true;
-      showMsg(langData.msg_success, 'ok');
-      renderChips();
-    } else {
-      showMsg(langData.msg_error, 'no');
-    }
-  };
-}
-
-var qNextBtn = $('#qNext');
-if (qNextBtn) {
-  qNextBtn.onclick = function() {
-    var langData = translations[currentLang];
-    if (!langData || !langData.quiz) return;
-    
-    if (qi < langData.quiz.length - 1) {
-      qi++;
-      showQ();
-    } else {
-      var pct = Math.round(qOk / langData.quiz.length * 100);
-      var body = $('#qBody');
-      body.innerHTML = '';
-      
-      var s = document.createElement('div');
-      s.className = 'score';
-      s.textContent = qOk + ' / ' + langData.quiz.length;
-      
-      var m = document.createElement('div');
-      m.style.marginTop = '8px';
-      m.style.fontSize = '14px';
-      m.textContent = pct >= 75 ? langData.excellent : pct >= 50 ? langData.good : langData.need_practice;
-      
-      body.appendChild(s);
-      body.appendChild(m);
-      
-      $('#qExpl').style.display = 'none';
-      var nx = $('#qNext');
-      nx.textContent = langData.restart_quiz;
-      nx.onclick = function() {
-        nx.onclick = null;
-        startQuiz();
-      };
-    }
-  };
-}
-
 /* ============ التهيئة الأولية ============ */
 function initApp() {
-  // ✅ استدعاء الدوال فقط إذا كانت العناصر موجودة
   if ($('#lessonList')) renderLessonList();
   if ($('#lessonBody')) renderLesson();
   if ($('#chips')) loadChallenge();
