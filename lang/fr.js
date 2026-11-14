@@ -368,6 +368,11 @@ window.TRANSLATIONS['fr'] = {
       o: ['justify-content: center seulement', 'align-items: center seulement', 'justify-content: center avec align-items: center', 'flex-direction: center'],
       a: 2,
       e: 'Nous avons besoin des deux axes ensemble: justify-content pour l\'horizontal et align-items pour le vertical.'
+    }, 
+    {
+      share_result: 'Partager le résultat',
+  share_text: "J'ai obtenu",
+  copied_to_clipboard: 'Lien copié! Vous pouvez le coller n\'importe où.',
     }
   ], 
   // ============ Pied de page ============
