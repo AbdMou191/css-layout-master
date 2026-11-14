@@ -948,13 +948,30 @@ code {
   .app-footer {
     font-size: 12px;
   }
-  
+
   .app-footer a {
     display: inline-block;
     margin: 4px 6px;
   }
-  
+
   .app-footer .separator {
     display: none;
   }
+}
+
+/* ============ زر المشاركة ============ */
+.share-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.share-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.share-btn:active {
+  transform: translateY(0);
 }
