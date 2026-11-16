@@ -558,37 +558,15 @@ if (qNextBtn) {
       body.appendChild(s);
       body.appendChild(m);
       
-      // ✅ زر مشاركة النتيجة المضاف حديثاً
+      // ✅ زر مشاركة النتيجة (نسخة محسّنة - يفتح share.html)
       var shareBtn = document.createElement('button');
       shareBtn.className = 'pbtn share-btn';
       shareBtn.textContent = '📤 ' + (langData.share_result || 'مشاركة النتيجة');
       shareBtn.style.marginTop = '16px';
       shareBtn.style.width = '100%';
       shareBtn.onclick = function() {
-        var shareText = langData.share_text || 'لقد حصلت على';
-        var shareUrl = window.location.href;
-        var message = shareText + ' ' + qOk + '/' + langData.quiz.length + ' 🎯\n\n' + shareUrl;
-        
-        if (navigator.share) {
-          navigator.share({
-            title: langData.app_title || 'مرجع Flexbox و Grid',
-            text: message,
-            url: shareUrl
-          }).catch(function(err) {
-            console.log('مشاركة ملغاة:', err);
-          });
-        } else {
-          var shareWindow = window.open(
-            'https://twitter.com/intent/tweet?text=' + encodeURIComponent(message),
-            '_blank',
-            'width=600,height=400'
-          );
-          if (!shareWindow) {
-            navigator.clipboard.writeText(message).then(function() {
-              alert(langData.copied_to_clipboard || 'تم نسخ الرابط! يمكنك لصقه في أي مكان.');
-            });
-          }
-        }
+        var shareUrl = 'share.html?score=' + qOk + '&total=' + langData.quiz.length;
+        window.open(shareUrl, '_blank');
       };
       body.appendChild(shareBtn);
       
