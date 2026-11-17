@@ -76,6 +76,15 @@ function setLanguage(langCode) {
     if (typeof startQuiz === 'function') {
       startQuiz();
     }
+
+    // إعادة بناء المحاكي بعد اكتمال تحميل الترجمة؛
+    // لأن initApp قد يعمل قبل وصول ملف اللغة الديناميكي.
+    if (typeof renderPlayControls === 'function') {
+      renderPlayControls();
+    }
+    if (typeof renderPlay === 'function') {
+      renderPlay();
+    }
   });
 }
 
@@ -85,7 +94,7 @@ function detectBrowserLanguage() {
   lang = lang.split('-')[0]; // أخذ الجزء الأول فقط (ar, en, fr)
   
   // التحقق من دعم اللغة
-  if (['ar', 'en', 'fr'].indexOf(lang) === -1) {
+  if (['ar', 'en', 'fr', 'es', 'tr'].indexOf(lang) === -1) {
     lang = 'ar'; // اللغة الافتراضية
   }
   

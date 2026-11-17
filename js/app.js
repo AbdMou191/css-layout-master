@@ -2,6 +2,21 @@
 var $ = function(s) { return document.querySelector(s); };
 var COLORS = ['#3b82f6', '#ef4444', '#22c55e', '#a855f7', '#6b7280'];
 
+/* ============ دالة خلط المصفوفات عشوائياً (Fisher-Yates Shuffle) ============ */
+function shuffleArray(array) {
+  var arr = array.slice(); // إنشاء نسخة لعدم تعديل المصفوفة الأصلية
+  for (var i = arr.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  }
+  return arr;
+}
+
+// متغير لتخزين الأسئلة المخلوطة للجلسة الحالية
+var currentQuizSession = [];
+
 function itemEl(i) {
   var d = document.createElement('div');
   d.className = 'box';
@@ -473,34 +488,89 @@ function renderPlayControls() {
 }
 
 /* ============ الاختبار ============ */
+/* ============ دالة خلط المصفوفات عشوائياً (Fisher-Yates Shuffle) ============ */
+function shuffleArray(array) {
+  var arr = array.slice(); // إنشاء نسخة لعدم تعديل المصفوفة الأصلية
+  for (var i = arr.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  }
+  return arr;
+}
+
+// متغير لتخزين الأسئلة المخلوطة للجلسة الحالية
+var currentQuizSession = [];
+
+/* ============ الاختبار ============ */
+
 function startQuiz() {
   qi = 0;
   qOk = 0;
+  currentQuizSession = []; // تصفير الجلسة السابقة
+
+  var langData = translations[currentLang];
+  if (!langData || !langData.quiz || langData.quiz.length === 0) {
+    console.warn('لا توجد أسئلة متاحة لهذه اللغة');
+    return;
+  }
+
+  // 1. نسخ الأسئلة بشكل آمن (دفاعي)
+  var quizCopy = langData.quiz.map(function(q) {
+    return {
+      q: q.q || 'سؤال غير معروف',
+      o: Array.isArray(q.o) ? q.o.slice() : [], // ضمان أن الخيارات مصفوفة
+      a: typeof q.a === 'number' ? q.a : 0,     // ضمان وجود مؤشر رقمي
+      e: q.e || 'لا يوجد شرح'
+    };
+  });
+
+  // 2. خلط ترتيب الأسئلة نفسها
+  quizCopy = shuffleArray(quizCopy);
+
+  // 3. خلط خيارات كل سؤال وتحديث مؤشر الإجابة الصحيحة
+  currentQuizSession = quizCopy.map(function(q) {
+    var correctText = q.o[q.a];
+    var shuffledOptions = shuffleArray(q.o);
+    var newCorrectIndex = shuffledOptions.indexOf(correctText);
+
+    // حماية إضافية: إذا لم يتم العثور على الإجابة لأي سبب، نضعها في الأول
+    if (newCorrectIndex === -1) {
+      newCorrectIndex = 0;
+    }
+
+    return {
+      q: q.q,
+      o: shuffledOptions,
+      a: newCorrectIndex,
+      e: q.e
+    };
+  });
+
   showQ();
 }
 
 function showQ() {
   qAnswered = false;
-  
-  var langData = translations[currentLang];
-  if (!langData || !langData.quiz) return;
-  
-  var Q = langData.quiz[qi];
+  var Q = currentQuizSession[qi];
   if (!Q) return;
-  
-  $('#qCount').textContent = langData.question + (qi + 1) + langData.of + langData.quiz.length;
-  $('#qScore').textContent = langData.correct_answers + qOk;
-  
+
+  var langData = translations[currentLang];
+
+  $('#qCount').textContent = (langData.question || 'السؤال ') + (qi + 1) + (langData.of || ' من ') + currentQuizSession.length;
+  $('#qScore').textContent = (langData.correct_answers || 'الإجابات الصحيحة: ') + qOk;
+
   var body = $('#qBody');
   body.innerHTML = '';
-  
+
   var t = document.createElement('div');
   t.style.fontWeight = '600';
   t.style.fontSize = '16px';
   t.style.marginTop = '4px';
   t.textContent = Q.q;
   body.appendChild(t);
-  
+
   Q.o.forEach(function(op, i) {
     var b = document.createElement('button');
     b.className = 'qopt';
@@ -508,76 +578,86 @@ function showQ() {
     b.onclick = function() {
       if (qAnswered) return;
       qAnswered = true;
+
       body.querySelectorAll('.qopt').forEach(function(x, j) {
         x.disabled = true;
-        if (j === Q.a) x.classList.add('ok');
+        if (j === Q.a) x.classList.add('ok'); // تلوين الإجابة الصحيحة دائماً بالأخضر
       });
+
       if (i === Q.a) {
         qOk++;
       } else {
         b.classList.add('bad');
       }
+
       var ex = $('#qExpl');
       ex.textContent = '💡 ' + Q.e;
       ex.style.display = 'block';
+
       $('#qNext').disabled = false;
-      $('#qScore').textContent = langData.correct_answers + qOk;
+      $('#qScore').textContent = (langData.correct_answers || 'الإجابات الصحيحة: ') + qOk;
     };
     body.appendChild(b);
   });
-  
+
   $('#qExpl').style.display = 'none';
   var nx = $('#qNext');
   nx.disabled = true;
-  nx.textContent = qi === langData.quiz.length - 1 ? langData.show_result : langData.btn_next;
-}
 
-var qNextBtn = $('#qNext');
-if (qNextBtn) {
-  qNextBtn.onclick = function() {
-    var langData = translations[currentLang];
-    if (!langData || !langData.quiz) return;
-    
-    if (qi < langData.quiz.length - 1) {
+  // ✅ منطق نظيف للزر: إما "التالي" أو "عرض النتيجة"
+  if (qi === currentQuizSession.length - 1) {
+    nx.textContent = langData.show_result || 'عرض النتيجة';
+    nx.onclick = function() {
+      showFinalResult();
+    };
+  } else {
+    nx.textContent = langData.btn_next || 'التالي';
+    nx.onclick = function() {
       qi++;
       showQ();
-    } else {
-      var pct = Math.round(qOk / langData.quiz.length * 100);
-      var body = $('#qBody');
-      body.innerHTML = '';
-      
-      var s = document.createElement('div');
-      s.className = 'score';
-      s.textContent = qOk + ' / ' + langData.quiz.length;
-      
-      var m = document.createElement('div');
-      m.style.marginTop = '8px';
-      m.style.fontSize = '14px';
-      m.textContent = pct >= 75 ? langData.excellent : pct >= 50 ? langData.good : langData.need_practice;
-      
-      body.appendChild(s);
-      body.appendChild(m);
-      
-      // ✅ زر مشاركة النتيجة (نسخة محسّنة - يفتح share.html)
-      var shareBtn = document.createElement('button');
-      shareBtn.className = 'pbtn share-btn';
-      shareBtn.textContent = '📤 ' + (langData.share_result || 'مشاركة النتيجة');
-      shareBtn.style.marginTop = '16px';
-      shareBtn.style.width = '100%';
-      shareBtn.onclick = function() {
-        var shareUrl = 'share.html?score=' + qOk + '&total=' + langData.quiz.length;
-        window.open(shareUrl, '_blank');
-      };
-      body.appendChild(shareBtn);
-      
-      $('#qExpl').style.display = 'none';
-      var nx = $('#qNext');
-      nx.textContent = langData.restart_quiz;
-      nx.onclick = function() {
-        nx.onclick = null;
-        startQuiz();
-      };
-    }
+    };
+  }
+}
+
+function showFinalResult() {
+  var langData = translations[currentLang];
+  var pct = Math.round(qOk / currentQuizSession.length * 100);
+  var body = $('#qBody');
+  body.innerHTML = '';
+
+  var s = document.createElement('div');
+  s.className = 'score';
+  s.textContent = qOk + ' / ' + currentQuizSession.length;
+
+  var m = document.createElement('div');
+  m.style.marginTop = '8px';
+  m.style.fontSize = '14px';
+  m.textContent = pct >= 75 ? (langData.excellent || 'ممتاز!') : pct >= 50 ? (langData.good || 'جيد') : (langData.need_practice || 'تحتاج للمزيد من التدريب');
+
+  body.appendChild(s);
+  body.appendChild(m);
+
+  // ✅ زر المشاركة
+  var shareBtn = document.createElement('button');
+  shareBtn.className = 'pbtn share-btn';
+  shareBtn.textContent = '📤 ' + (langData.share_result || 'مشاركة النتيجة');
+  shareBtn.style.marginTop = '16px';
+  shareBtn.style.width = '100%';
+  shareBtn.onclick = function() {
+    var shareUrl = 'share.html?score=' + qOk + '&total=' + currentQuizSession.length;
+    window.open(shareUrl, '_blank');
+  };
+  body.appendChild(shareBtn);
+
+  $('#qExpl').style.display = 'none';
+  
+  var nx = $('#qNext');
+  nx.textContent = langData.restart_quiz || 'إعادة الاختبار';
+  nx.disabled = false;
+  
+  // ✅ عند الضغط على إعادة الاختبار، نبدأ من جديد مع خلط جديد
+  nx.onclick = function() {
+    startQuiz();
   };
 }
 

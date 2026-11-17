@@ -10,7 +10,7 @@
     } else {
       document.documentElement.classList.remove('dark');
     }
-    
+
     // حفظ التفضيل
     try {
       localStorage.setItem('darkMode', isDark);
@@ -22,7 +22,7 @@
   // دالة تهيئة الوضع الليلي
   function initTheme() {
     var darkToggle = document.getElementById('darkModeToggle');
-    
+
     // التحقق من التفضيل المحفوظ
     var savedDarkMode = null;
     try {
@@ -30,7 +30,7 @@
     } catch (e) {
       console.warn('لا يمكن الوصول إلى localStorage');
     }
-    
+
     // ✅ تحديد الوضع الابتدائي (تم تصحيح المنطق المقلوب)
     var isDark = false;
     if (savedDarkMode === 'true') {
@@ -43,10 +43,10 @@
         isDark = true;
       }
     }
-    
+
     // تطبيق الوضع الابتدائي فوراً
     applyDarkMode(isDark);
-    
+
     // إضافة مستمع الحدث للزر (إن وجد)
     if (darkToggle) {
       darkToggle.addEventListener('click', function(e) {
@@ -55,7 +55,7 @@
         applyDarkMode(!currentIsDark);
       });
     }
-    
+
     // الاستماع لتغييرات تفضيل النظام (لو غير المستخدم إعدادات هاتفه)
     if (window.matchMedia) {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
@@ -63,7 +63,7 @@
         try {
           saved = localStorage.getItem('darkMode');
         } catch (e) {}
-        
+
         // نغير الوضع تلقائياً فقط إذا لم يقم المستخدم بتحديد تفضيل يدوي سابقاً
         if (saved === null) {
           applyDarkMode(e.matches);
