@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>🎨 مولّد صور المشروع</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0f172a;
+      color: #fff;
+      padding: 20px;
+      margin: 0;
+    }
+    h1 { text-align: center; font-size: 24px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 20px auto;
+    }
+    .card {
+      background: #1e293b;
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+      border: 1px solid #334155;
+    }
+    .card h3 { font-size: 16px; margin: 0 0 8px; color: #60a5fa; }
+    .card p { font-size: 13px; color: #94a3b8; margin: 0 0 12px; }
+    canvas {
+      border-radius: 8px;
+      max-width: 100%;
+      margin-bottom: 12px;
+      background: #000;
+    }
+    button {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover { transform: translateY(-2px); }
+    .btn-all {
+      display: block;
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 16px;
+      font-size: 18px;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+  </style>
+</head>
+<body>
+  <h1>🎨 مولّد صور المشروع التلقائي</h1>
+  <button class="btn-all" onclick="downloadAll()">⬇️ تحميل جميع الصور دفعة واحدة</button>
+  <div class="grid" id="grid"></div>
+
+  <script>
+    var images = [
+      { name: 'share-preview.jpg', w: 1200, h: 630, type: 'og' },
+      { name: 'apple-touch-icon.png', w: 180, h: 180, type: 'icon' },
+      { name: 'icon-192.png', w: 192, h: 192, type: 'icon' },
+      { name: 'icon-512.png', w: 512, h: 512, type: 'icon' },
+      { name: 'icon-maskable.png', w: 512, h: 512, type: 'maskable' },
+      { name: 'github-social-preview.png', w: 1280, h: 640, type: 'og' }
+    ];
+
+    var grid = document.getElementById('grid');
+
+    function drawIcon(ctx, W, H, maskable) {
+      var cx = W/2, cy = H/2;
+      var size = Math.min(W, H);
+      // خلفية متدرجة
+      var g = ctx.createLinearGradient(0, 0, W, H);
+      g.addColorStop(0, '#667eea');
+      g.addColorStop(1, '#764ba2');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+      // مربعات تمثيل Grid
+      var pad = size * 0.22;
+      var cell = size * 0.16;
+      var gap = size * 0.04;
+      ctx.fillStyle = 'rgba(255,255,255,0.95)';
+      for (var r = 0; r < 3; r++) {
+        for (var c = 0; c < 3; c++) {
+          ctx.fillRect(pad + c*(cell+gap), pad + r*(cell+gap), cell, cell);
+        }
+      }
+      // نص CSS
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold ' + (size*0.12) + 'px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('CSS', cx, H - size*0.12);
+    }
+
+    function drawOG(ctx, W, H) {
+      var g = ctx.createLinearGradient(0, 0, W, H);
+      g.addColorStop(0, '#667eea');
+      g.addColorStop(0.5, '#764ba2');
+      g.addColorStop(1, '#f093fb');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+      // دوائر زخرفية
+      ctx.fillStyle = 'rgba(255,255,255,0.08)';
+      ctx.beginPath(); ctx.arc(W*0.85, H*0.2, 180, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(W*0.15, H*0.85, 140, 0, Math.PI*2); ctx.fill();
+      // إيموجي
+      ctx.font = (H*0.18) + 'px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('🎯', W/2, H*0.2);
+      // العنوان
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold ' + (H*0.11) + 'px Arial';
+      ctx.fillText('تحدي CSS Flexbox & Grid', W/2, H*0.45);
+      // النص
+      ctx.fillStyle = '#e0e7ff';
+      ctx.font = 'italic ' + (H*0.075) + 'px Arial';
+      ctx.fillText('"هل تستطيع التفوق على نتيجتي؟"', W/2, H*0.62);
+      // الرابط
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold ' + (H*0.05) + 'px Arial';
+      ctx.fillText('abdmou191.github.io/css-layout-master', W/2, H*0.85);
+      // إطار
+      ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+      ctx.lineWidth = 4;
+      ctx.strokeRect(30, 30, W-60, H-60);
+    }
+
+    function renderCard(img) {
+      var card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = '<h3>' + img.name + '</h3><p>' + img.w + '×' + img.h + '</p>';
+      var canvas = document.createElement('canvas');
+      canvas.width = img.w;
+      canvas.height = img.h;
+      card.appendChild(canvas);
+      var btn = document.createElement('button');
+      btn.textContent = '💾 تحميل';
+      btn.onclick = function() { downloadImg(img, canvas); };
+      card.appendChild(btn);
+      grid.appendChild(card);
+      var ctx = canvas.getContext('2d');
+      if (img.type === 'og') drawOG(ctx, img.w, img.h);
+      else drawIcon(ctx, img.w, img.h, img.type === 'maskable');
+    }
+
+    function downloadImg(img, canvas) {
+      var link = document.createElement('a');
+      link.download = img.name;
+      link.href = canvas.toDataURL(img.name.endsWith('.jpg') ? 'image/jpeg' : 'image/png', 0.95);
+      link.click();
+    }
+
+    function downloadAll() {
+      images.forEach(function(img, i) {
+        setTimeout(function() {
+          var c = document.createElement('canvas');
+          c.width = img.w; c.height = img.h;
+          var ctx = c.getContext('2d');
+          if (img.type === 'og') drawOG(ctx, img.w, img.h);
+          else drawIcon(ctx, img.w, img.h, img.type === 'maskable');
+          downloadImg(img, c);
+        }, i * 600);
+      });
+    }
+
+    images.forEach(renderCard);
+  </script>
+</body>
+</html>

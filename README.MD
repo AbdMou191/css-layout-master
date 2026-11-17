@@ -1,33 +1,3 @@
-## 🌐 الرابط المباشر
-[افتح التطبيق الآن](https://abdmou191.github.io/css-layout-master/)
-
-## 📱 مميزات التطبيق
-- ✅ **PWA**: يعمل دون إنترنت ويمكن تثبيته على الهاتف
-- 🌍 **3 لغات**: العربية، الإنجليزية، الفرنسية
--  **الوضع الليلي**: مريح للعين
-- 📚 **دروس شاملة**: Flexbox و CSS Grid
-- 🎯 **تمارين تفاعلية**: مع حلول فورية
-- 📊 **اختبارات**: لقياس مستوى فهمك
-- 📱 **متجاوب**: يعمل على جميع الأجهزة
-
-## 🚀 التقنيات المستخدمة
-- HTML5
-- CSS3 (Flexbox + Grid)
-- Vanilla JavaScript
-- Service Worker (PWA)
-- localStorage
-
-## 📸 لقطات شاشة
-![الدروس النضرية](screenshots/home.jpg)
-
-![الدروس التطبيقية](screenshots/home-1.jpg)
-
-![ محاكي grid](screenshots/home-2.jpg)
-
-![ محاكي flexbox](screenshots/home-3.jpg)
-
-![اختبر نفسك](screenshots/home-4.jpg)
-
 # 🎨 مرجع Flexbox و Grid — دروس وتمارين
 
 تطبيق ويب تفاعلي لتعلم أنظمة التخطيط في CSS (Flexbox و CSS Grid) بطريقة عملية وممتعة.
